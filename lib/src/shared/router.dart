@@ -1,0 +1,64 @@
+import 'package:basket/src/shared/views/root_layout.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+import '../features/home/home.dart';
+import '../features/settings/settings.dart';
+
+const _pageKey = ValueKey('_pageKey');
+const _scaffoldKey = ValueKey('_scaffoldKey');
+
+class NavigationDestination {
+  const NavigationDestination({
+    required this.route,
+    required this.label,
+    required this.icon,
+    this.child,
+  });
+
+  final String route;
+  final String label;
+  final Icon icon;
+  final Widget? child;
+}
+
+const List<NavigationDestination> destinations = [
+  NavigationDestination(
+    label: 'Home',
+    icon: Icon(Icons.home),
+    route: '/',
+  ),
+  NavigationDestination(
+    label: 'Settings',
+    icon: Icon(Icons.settings),
+    route: '/settings',
+  ),
+];
+
+final appRouter = GoRouter(
+  restorationScopeId: 'app',
+  urlPathStrategy: UrlPathStrategy.path,
+  navigatorBuilder: (context, state, child) => child,
+  routes: [
+    GoRoute(
+        path: '/',
+        pageBuilder: (context, state) => const MaterialPage<void>(
+              key: _pageKey,
+              child: RootLayout(
+                key: _scaffoldKey,
+                currentIndex: 0,
+                child: HomeScreen(),
+              ),
+            )),
+    GoRoute(
+        path: '/settings',
+        pageBuilder: (context, state) => const MaterialPage<void>(
+              key: _pageKey,
+              child: RootLayout(
+                key: _scaffoldKey,
+                currentIndex: 1,
+                child: SettingsScreen(),
+              ),
+            )),
+  ],
+);
