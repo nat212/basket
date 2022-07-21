@@ -33,3 +33,15 @@ extension SerialisedThemeMode on ThemeMode {
     }
   }
 }
+
+extension GetTextThemeFromContext on TextTheme {
+  static TextTheme of(BuildContext context) {
+    return Theme.of(context).textTheme;
+  }
+}
+
+extension GetColorSchemeFromContext on ColorScheme {
+  static ColorScheme of(BuildContext context) {
+    return Theme.of(context).colorScheme;
+  }
+}

@@ -1,3 +1,4 @@
+import 'package:basket/src/features/shopping_lists/shopping_lists.dart';
 import 'package:basket/src/shared/views/root_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -49,7 +50,64 @@ final appRouter = GoRouter(
                 currentIndex: 0,
                 child: HomeScreen(),
               ),
-            )),
+            ),
+        routes: [
+          GoRoute(
+            path: 'lists/add',
+            pageBuilder: (context, state) => MaterialPage<void>(
+              key: state.pageKey,
+              child: const RootLayout(
+                key: _scaffoldKey,
+                currentIndex: 0,
+                child: AddListScreen(),
+              ),
+            ),
+          ),
+          GoRoute(
+            path: 'lists/:listId',
+            pageBuilder: (context, state) => MaterialPage<void>(
+                key: state.pageKey,
+                child: RootLayout(
+                    key: _scaffoldKey,
+                    currentIndex: 0,
+                    child: ShoppingListDetailScreen(
+                      shoppingList: ShoppingListProvider.instance
+                          .get(int.parse(state.params['listId']!))!,
+                    ))),
+            routes: [
+              GoRoute(
+                path: 'items/add',
+                pageBuilder: (context, state) => MaterialPage<void>(
+                  key: state.pageKey,
+                  child: RootLayout(
+                    key: _scaffoldKey,
+                    currentIndex: 0,
+                    child: AddItemScreen(
+                      list: ShoppingListProvider.instance
+                          .get(int.parse(state.params['listId']!))!,
+                    ),
+                  ),
+                ),
+              ),
+              GoRoute(
+                path: 'items/:itemId',
+                pageBuilder: (context, state) => MaterialPage<void>(
+                  key: state.pageKey,
+                  child: RootLayout(
+                    key: _scaffoldKey,
+                    currentIndex: 0,
+                    child: AddItemScreen(
+                      list: ShoppingListProvider.instance
+                          .get(int.parse(state.params['listId']!))!,
+                      initialItem: ShoppingListProvider.instance
+                          .getItem(int.parse(state.params['itemId']!))!,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ]),
     GoRoute(
         path: '/settings',
         pageBuilder: (context, state) => const MaterialPage<void>(
