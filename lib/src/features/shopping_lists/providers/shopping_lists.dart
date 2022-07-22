@@ -22,6 +22,11 @@ class ShoppingListProvider extends ValueNotifier<List<ShoppingList>> {
     final Box<ShoppingList> box = await Hive.openBox('shoppingLists');
     final Box<ShoppingListItem> itemBox =
         await Hive.openBox('shoppingListItems');
+    if (box.isEmpty) {
+      box.add(ShoppingList(
+          name: 'My Shopping List',
+          items: HiveList<ShoppingListItem>(itemBox)));
+    }
     instance = ShoppingListProvider._internal(box, itemBox);
   }
 
@@ -32,9 +37,21 @@ class ShoppingListProvider extends ValueNotifier<List<ShoppingList>> {
         items: HiveList<ShoppingListItem>(_itemBox)));
   }
 
+  ShoppingListItem? findItemByName(String name) {
+    return _itemBox.values.firstWhere((item) => item.name.toLowerCase().trim() == name.toLowerCase().trim());
+  }
+
   void addShoppingListItem(ShoppingList list, ShoppingListItem item) {
-    _itemBox.add(item);
+    if (!item.isInBox) {
+      final itemInBox = findItemByName(item.name);
+      if (itemInBox == null) {
+        _itemBox.add(item);
+      } else {
+        item = itemInBox;
+      }
+    }
     list.items.add(item);
+    list.save();
   }
 
   ShoppingList? get(int id) {

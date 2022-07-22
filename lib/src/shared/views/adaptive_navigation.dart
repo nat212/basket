@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:basket/src/shared/extensions.dart';
+import 'package:flutter/material.dart';
 
 class AdaptiveNavigation extends StatelessWidget {
   const AdaptiveNavigation({
@@ -41,7 +41,12 @@ class AdaptiveNavigation extends StatelessWidget {
         ]));
       }
       return Scaffold(
-        body: child,
+        body: Container(
+          constraints: BoxConstraints(
+            maxHeight: dimens.maxHeight,
+          ),
+          child: child,
+        ),
         bottomNavigationBar: NavigationBar(
           destinations: destinations,
           selectedIndex: selectedIndex,

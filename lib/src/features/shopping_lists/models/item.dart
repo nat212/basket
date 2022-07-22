@@ -50,4 +50,24 @@ class ShoppingListItem extends HiveObject {
     this.checked = checked ?? this.checked;
     return this;
   }
+
+  @override
+  operator==(Object other) =>
+      identical(this, other) ||
+      other is ShoppingListItem &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          description == other.description &&
+          quantity == other.quantity &&
+          checked == other.checked;
+
+  @override
+  int get hashCode => name.hashCode ^ description.hashCode ^ quantity.hashCode ^ checked.hashCode;
+
+  @override
+  String toString() {
+    return 'ShoppingListItem{name: $name, description: $description, quantity: $quantity, checked: $checked}';
+  }
+
+  String get searchableRepresentation => '$name $description';
 }

@@ -33,4 +33,9 @@ class ShoppingList extends HiveObject {
     this.description = description ?? this.description;
     return this;
   }
+
+  @override
+  String toString() {
+    return 'ShoppingList{name: $name, description: $description, items: ShoppingListItem[${items.length}]';
+  }
 }

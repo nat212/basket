@@ -1,3 +1,4 @@
+import 'package:basket/src/shared/providers/settings.dart';
 import 'package:basket/src/shared/providers/theme.dart';
 import 'package:basket/src/shared/router.dart';
 import 'package:dynamic_color/dynamic_color.dart';
@@ -12,7 +13,7 @@ class BasketApp extends StatefulWidget {
 
 class _BasketAppState extends State<BasketApp> {
   final settings = ValueNotifier(ThemeSettings(
-      sourceColor: const Color(0xFF006970), themeMode: ThemeMode.system));
+      sourceColor: const Color(0xFF006970), themeMode: SettingsProvider.themeMode));
 
   @override
   Widget build(BuildContext context) {

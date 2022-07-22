@@ -1,3 +1,4 @@
+import 'package:basket/src/features/pantry/pantry.dart';
 import 'package:basket/src/features/shopping_lists/shopping_lists.dart';
 import 'package:basket/src/shared/views/root_layout.dart';
 import 'package:flutter/material.dart';
@@ -25,9 +26,14 @@ class NavigationDestination {
 
 const List<NavigationDestination> destinations = [
   NavigationDestination(
-    label: 'Home',
-    icon: Icon(Icons.home),
+    label: 'My List',
+    icon: Icon(Icons.shopping_basket),
     route: '/',
+  ),
+  NavigationDestination(
+    label: 'My Pantry',
+    icon: Icon(Icons.fastfood),
+    route: '/pantry',
   ),
   NavigationDestination(
     label: 'Settings',
@@ -109,12 +115,23 @@ final appRouter = GoRouter(
           ),
         ]),
     GoRoute(
+      path: '/pantry',
+      pageBuilder: (context, state) => const MaterialPage(
+        key: _pageKey,
+        child: RootLayout(
+          key: _scaffoldKey,
+          currentIndex: 1,
+          child: PantryScreen(),
+        ),
+      ),
+    ),
+    GoRoute(
         path: '/settings',
         pageBuilder: (context, state) => const MaterialPage<void>(
               key: _pageKey,
               child: RootLayout(
                 key: _scaffoldKey,
-                currentIndex: 1,
+                currentIndex: 2,
                 child: SettingsScreen(),
               ),
             )),
